@@ -107,7 +107,8 @@ type SupplierAction =
   | { type: 'SET_COMMUNICATIONS'; payload: Communication[] }
   | { type: 'ADD_COMMUNICATION'; payload: Communication }
   | { type: 'UPDATE_COMMUNICATION'; payload: Communication }
-  | { type: 'UPDATE_SETTINGS'; payload: SupplierSettings };
+  | { type: 'UPDATE_SETTINGS'; payload: SupplierSettings }
+  | { type: 'DELETE_CUSTOMER'; payload: string };
 
 const defaultSettings: SupplierSettings = {
   companyName: 'My Supply Company',
@@ -197,6 +198,11 @@ function supplierReducer(state: SupplierState, action: SupplierAction): Supplier
       };
     case 'UPDATE_SETTINGS':
       return { ...state, settings: action.payload };
+    case 'DELETE_CUSTOMER':
+      return {
+        ...state,
+        customers: state.customers.filter(c => c.id !== action.payload),
+      };
     default:
       return state;
   }
